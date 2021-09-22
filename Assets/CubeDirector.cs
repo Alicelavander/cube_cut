@@ -2,28 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CubeSetup {
+namespace CubeSetup
+{
 
-    public class meshFilterScript : MonoBehaviour
+    public class CubeDirector : MonoBehaviour
     {
         MeshFilter meshFilter;
         Vector3[] vertices;
-        Vector3[] objectVertices;
+        Vector3[] objectVertices = new Vector3[8];
         List<Senbun> senbunList = new List<Senbun>();
-        public List<Vector3> threePoints;
+        List<List<Vector3>> answerPoints = new List<List<Vector3>>();
         public GameObject linePrefab;
         public GameObject spherePrefab;
         public GameObject[] sphereObject = new GameObject[3];
-        GameObject answerCameraDirector;
+        public AnswerCameraDirector[] answerCameraDirector;
 
         // Start is called before the first frame update
         void Start()
         {
-            answerCameraDirector = GameObject.Find("answerCamera");
             this.meshFilter = GameObject.Find("Cube").GetComponent<MeshFilter>();
             vertices = meshFilter.mesh.vertices;
-            objectVertices = new Vector3[8];
+            answerCameraDirector = new AnswerCameraDirector[4];
+            answerCameraDirector[0] = GameObject.Find("AnswerCamera1").GetComponent<AnswerCameraDirector>();
+            answerCameraDirector[1] = GameObject.Find("AnswerCamera2").GetComponent<AnswerCameraDirector>();
+            answerCameraDirector[2] = GameObject.Find("AnswerCamera3").GetComponent<AnswerCameraDirector>();
+            answerCameraDirector[3] = GameObject.Find("AnswerCamera4").GetComponent<AnswerCameraDirector>();
 
+            //verticsをとってきただけじゃダブる頂点がいくつかあるから、それを整理するよ
             cubeVertices(vertices, objectVertices);
             //情報を処理しやすいように別のリストに入れるよ
             senbunList.Add(new Senbun(transform.TransformPoint(objectVertices[2]), transform.TransformPoint(objectVertices[4])));
@@ -39,10 +44,14 @@ namespace CubeSetup {
             senbunList.Add(new Senbun(transform.TransformPoint(objectVertices[4]), transform.TransformPoint(objectVertices[5])));
             senbunList.Add(new Senbun(transform.TransformPoint(objectVertices[0]), transform.TransformPoint(objectVertices[1])));
 
-            threePoints = decidePoints(new List<Senbun>(senbunList));
+
+            for(int i=0; i<4; i++)
+            {
+                answerPoints.Add(decidePoints(new List<Senbun>(senbunList)));
+            }
 
 
-            //線を描画するよ
+            //立方体の輪郭を描画するよ
             GameObject lineObject;
             LineRenderer lineRenderer;
             for (int i = 0; i < senbunList.Count; i++)
@@ -54,29 +63,39 @@ namespace CubeSetup {
                 lineRenderer.SetPosition(0, senbunList[i].p1);
                 lineRenderer.SetPosition(1, senbunList[i].p2);
             }
-            //点を描画するよ
+            //ランダムに決めた3点を描画するよ
             for (int j = 0; j < 3; j++)
             {
                 sphereObject[j] = Instantiate(spherePrefab) as GameObject;
-                sphereObject[j].transform.position = threePoints[j];
+                sphereObject[j].transform.position = answerPoints[0][j];
             }
 
-            answerCameraDirector.GetComponent<answerCameraDirector>().moveCamera();
+            for(int i=0; i < answerCameraDirector.Length; i++)
+            {
+                    answerCameraDirector[i].MoveCamera(new Vector3(10 * (i+1), 0, 0), answerPoints[i]);
+            }
         }
 
         private void Update()
         {
             if (Input.GetMouseButtonDown(0))
             {
-                Debug.Log("Mouse clicked");
-                //3点をつくるよ(これ一行でできるよ)
-                threePoints = decidePoints(new List<Senbun>(senbunList));
+                //Debug.Log("Mouse clicked");
+                //3点をつくるよ
+                answerPoints.Clear();
+                for (int i = 0; i < 4; i++)
+                {
+                    answerPoints.Add(decidePoints(new List<Senbun>(senbunList)));
+                }
                 //辺上の点の位置を動かすよ
                 for (int j = 0; j < 3; j++)
                 {
-                    sphereObject[j].transform.position = threePoints[j];
+                    sphereObject[j].transform.position = answerPoints[0][j];
                 }
-                answerCameraDirector.GetComponent<answerCameraDirector>().moveCamera();
+                for (int i = 0; i < answerCameraDirector.Length; i++)
+                {
+                    answerCameraDirector[i].MoveCamera(new Vector3(10 * (i+1), 0, 0), answerPoints[i]);
+                }
             }
         }
 
@@ -97,7 +116,7 @@ namespace CubeSetup {
                 }
                 if (overlap == false)
                 {
-                    Debug.Log(vertices[i]);
+                    //Debug.Log(vertices[i]);
                     objectVertices[index] = vertices[i];
                     index++;
                 }
@@ -110,14 +129,13 @@ namespace CubeSetup {
             List<Vector3> result = new List<Vector3>();
             while (result.Count != 3)
             {
-                int randomLine = Random.Range(0, list.Count -1);
+                int randomLine = Random.Range(0, list.Count - 1);
                 Senbun a = list[randomLine];
                 int randomPoint = Random.Range(1, 9);
                 Vector3 pos = Middlepoint(a, randomPoint);
 
                 if (result.Count == 2 && pointsOnOneSide(result[0], result[1], pos) == true)
                 {
-                    Debug.Log("continue");
                     continue;
                 }
                 list.RemoveAt(randomLine);
@@ -133,7 +151,8 @@ namespace CubeSetup {
             if (a.x == b.x && b.x == c.x && a.x == c.x)
             {
                 return true;
-            }else if (a.y == b.y && b.y == c.y && a.y == c.y)
+            }
+            else if (a.y == b.y && b.y == c.y && a.y == c.y)
             {
                 return true;
             }
@@ -167,6 +186,6 @@ namespace CubeSetup {
             this.p1 = p1;
             this.p2 = p2;
         }
-        
+
     }
 }
