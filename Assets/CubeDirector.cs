@@ -7,11 +7,7 @@ namespace CubeSetup
 
     public class CubeDirector : MonoBehaviour
     {
-        MeshFilter meshFilter;
-        Vector3[] vertices;
-        Vector3[] objectVertices = new Vector3[8];
-        List<Senbun> senbunList = new List<Senbun>();
-        List<List<Vector3>> answerPoints = new List<List<Vector3>>();
+        List<Senbun> CubeSidesList = new List<Senbun>();
         public GameObject linePrefab;
         public GameObject spherePrefab;
         public GameObject[] sphereObject = new GameObject[3];
@@ -20,59 +16,60 @@ namespace CubeSetup
         // Start is called before the first frame update
         void Start()
         {
-            this.meshFilter = GameObject.Find("Cube").GetComponent<MeshFilter>();
-            vertices = meshFilter.mesh.vertices;
             answerCameraDirector = new AnswerCameraDirector[4];
             answerCameraDirector[0] = GameObject.Find("AnswerCamera1").GetComponent<AnswerCameraDirector>();
             answerCameraDirector[1] = GameObject.Find("AnswerCamera2").GetComponent<AnswerCameraDirector>();
             answerCameraDirector[2] = GameObject.Find("AnswerCamera3").GetComponent<AnswerCameraDirector>();
             answerCameraDirector[3] = GameObject.Find("AnswerCamera4").GetComponent<AnswerCameraDirector>();
 
-            //verticsをとってきただけじゃダブる頂点がいくつかあるから、それを整理するよ
-            cubeVertices(vertices, objectVertices);
+            //verticsをとってきて、ダブル頂点が無いように整理するよ
+            MeshFilter meshFilter = GameObject.Find("Cube").GetComponent<MeshFilter>();
+            Vector3[] objectVertices = new Vector3[8];
+            SimplifyVertices(meshFilter.mesh.vertices, objectVertices);
+
             //情報を処理しやすいように別のリストに入れるよ
-            senbunList.Add(new Senbun(transform.TransformPoint(objectVertices[2]), transform.TransformPoint(objectVertices[4])));
-            senbunList.Add(new Senbun(transform.TransformPoint(objectVertices[1]), transform.TransformPoint(objectVertices[7])));
-            senbunList.Add(new Senbun(transform.TransformPoint(objectVertices[0]), transform.TransformPoint(objectVertices[6])));
-            senbunList.Add(new Senbun(transform.TransformPoint(objectVertices[3]), transform.TransformPoint(objectVertices[5])));
-            senbunList.Add(new Senbun(transform.TransformPoint(objectVertices[0]), transform.TransformPoint(objectVertices[2])));
-            senbunList.Add(new Senbun(transform.TransformPoint(objectVertices[5]), transform.TransformPoint(objectVertices[7])));
-            senbunList.Add(new Senbun(transform.TransformPoint(objectVertices[4]), transform.TransformPoint(objectVertices[6])));
-            senbunList.Add(new Senbun(transform.TransformPoint(objectVertices[1]), transform.TransformPoint(objectVertices[3])));
-            senbunList.Add(new Senbun(transform.TransformPoint(objectVertices[2]), transform.TransformPoint(objectVertices[3])));
-            senbunList.Add(new Senbun(transform.TransformPoint(objectVertices[6]), transform.TransformPoint(objectVertices[7])));
-            senbunList.Add(new Senbun(transform.TransformPoint(objectVertices[4]), transform.TransformPoint(objectVertices[5])));
-            senbunList.Add(new Senbun(transform.TransformPoint(objectVertices[0]), transform.TransformPoint(objectVertices[1])));
+            CubeSidesList.Add(new Senbun(transform.TransformPoint(objectVertices[2]), transform.TransformPoint(objectVertices[4])));
+            CubeSidesList.Add(new Senbun(transform.TransformPoint(objectVertices[1]), transform.TransformPoint(objectVertices[7])));
+            CubeSidesList.Add(new Senbun(transform.TransformPoint(objectVertices[0]), transform.TransformPoint(objectVertices[6])));
+            CubeSidesList.Add(new Senbun(transform.TransformPoint(objectVertices[3]), transform.TransformPoint(objectVertices[5])));
+            CubeSidesList.Add(new Senbun(transform.TransformPoint(objectVertices[0]), transform.TransformPoint(objectVertices[2])));
+            CubeSidesList.Add(new Senbun(transform.TransformPoint(objectVertices[5]), transform.TransformPoint(objectVertices[7])));
+            CubeSidesList.Add(new Senbun(transform.TransformPoint(objectVertices[4]), transform.TransformPoint(objectVertices[6])));
+            CubeSidesList.Add(new Senbun(transform.TransformPoint(objectVertices[1]), transform.TransformPoint(objectVertices[3])));
+            CubeSidesList.Add(new Senbun(transform.TransformPoint(objectVertices[2]), transform.TransformPoint(objectVertices[3])));
+            CubeSidesList.Add(new Senbun(transform.TransformPoint(objectVertices[6]), transform.TransformPoint(objectVertices[7])));
+            CubeSidesList.Add(new Senbun(transform.TransformPoint(objectVertices[4]), transform.TransformPoint(objectVertices[5])));
+            CubeSidesList.Add(new Senbun(transform.TransformPoint(objectVertices[0]), transform.TransformPoint(objectVertices[1])));
 
-
-            for(int i=0; i<4; i++)
+            //図形4つ決めるよ(正確にはその頂点達の座標を決めるよ)
+            List<List<Vector3>> vertexList = new List<List<Vector3>>();
+            for (int i = 0; i < 4; i++)
             {
-                answerPoints.Add(decidePoints(new List<Senbun>(senbunList)));
+                vertexList.Add(DecidePoints(new List<Senbun>(CubeSidesList)));
             }
 
-
-            //立方体の輪郭を描画するよ
+            //立方体を描画するよ
             GameObject lineObject;
             LineRenderer lineRenderer;
-            for (int i = 0; i < senbunList.Count; i++)
+            for (int i = 0; i < CubeSidesList.Count; i++)
             {
-                lineObject = Instantiate(linePrefab) as GameObject;
+                lineObject = Instantiate(linePrefab);
                 lineRenderer = lineObject.GetComponent<LineRenderer>();
 
                 lineRenderer.positionCount = 2;
-                lineRenderer.SetPosition(0, senbunList[i].p1);
-                lineRenderer.SetPosition(1, senbunList[i].p2);
+                lineRenderer.SetPosition(0, CubeSidesList[i].p1);
+                lineRenderer.SetPosition(1, CubeSidesList[i].p2);
             }
-            //ランダムに決めた3点を描画するよ
+            //立方体上に3点を描画するよ
             for (int j = 0; j < 3; j++)
             {
-                sphereObject[j] = Instantiate(spherePrefab) as GameObject;
-                sphereObject[j].transform.position = answerPoints[0][j];
+                sphereObject[j] = Instantiate(spherePrefab);
+                sphereObject[j].transform.position = vertexList[0][j];
             }
-
-            for(int i=0; i < answerCameraDirector.Length; i++)
+            //カメラを移動させるよ
+            for (int i=0; i < 4; i++)
             {
-                    answerCameraDirector[i].MoveCamera(new Vector3(10 * (i+1), 0, 0), answerPoints[i]);
+                answerCameraDirector[i].MoveCamera(new Vector3(10 * (i+1), 0, 0), vertexList[i]);
             }
         }
 
@@ -80,27 +77,26 @@ namespace CubeSetup
         {
             if (Input.GetMouseButtonDown(0))
             {
-                //Debug.Log("Mouse clicked");
                 //3点をつくるよ
-                answerPoints.Clear();
+                List<List<Vector3>> vertexList = new List<List<Vector3>>();
                 for (int i = 0; i < 4; i++)
                 {
-                    answerPoints.Add(decidePoints(new List<Senbun>(senbunList)));
+                    vertexList.Add(DecidePoints(new List<Senbun>(CubeSidesList)));
                 }
-                //辺上の点の位置を動かすよ
+                //立方体上の3点を動かすよ
                 for (int j = 0; j < 3; j++)
                 {
-                    sphereObject[j].transform.position = answerPoints[0][j];
+                    sphereObject[j].transform.position = vertexList[0][j];
                 }
                 for (int i = 0; i < answerCameraDirector.Length; i++)
                 {
-                    answerCameraDirector[i].MoveCamera(new Vector3(10 * (i+1), 0, 0), answerPoints[i]);
+                    answerCameraDirector[i].MoveCamera(new Vector3(10 * (i+1), 0, 0), vertexList[i]);
                 }
             }
         }
 
         //ダブってた頂点の情報を整理してくれるよ
-        void cubeVertices(Vector3[] vertices, Vector3[] objectVertices)
+        void SimplifyVertices(Vector3[] vertices, Vector3[] objectVertices)
         {
             int index = 0;
             for (int i = 0; i < vertices.Length; i++)
@@ -116,37 +112,75 @@ namespace CubeSetup
                 }
                 if (overlap == false)
                 {
-                    //Debug.Log(vertices[i]);
                     objectVertices[index] = vertices[i];
                     index++;
                 }
             }
         }
 
-        //ランダム要素…３辺＆3点を決める
-        List<Vector3> decidePoints(List<Senbun> list)
+        
+        List<Vector3> DecidePoints(List<Senbun> list)
         {
-            List<Vector3> result = new List<Vector3>();
-            while (result.Count != 3)
+            //3点を決める
+            List<Vector3> threePoints = new List<Vector3>();
+            List<Senbun> listClone = new List<Senbun>(list);
+            while (threePoints.Count != 3)
             {
-                int randomLine = Random.Range(0, list.Count - 1);
-                Senbun a = list[randomLine];
-                int randomPoint = Random.Range(1, 9);
-                Vector3 pos = Middlepoint(a, randomPoint);
+                int randomLine = Random.Range(0, listClone.Count - 1);
+                Senbun a = listClone[randomLine];
+                int randomPoint = Random.Range(1, 3);
+                Vector3 pos = PointOnLine(a, randomPoint);
 
-                if (result.Count == 2 && pointsOnOneSide(result[0], result[1], pos) == true)
+                if (threePoints.Count == 2 && PointsOnOneSide(threePoints[0], threePoints[1], pos) == true)
                 {
                     continue;
                 }
-                list.RemoveAt(randomLine);
-                result.Add(pos);
+                listClone.RemoveAt(randomLine);
+                threePoints.Add(pos);
             }
 
+            //3点を通った平面で切断したときに通る他の点も格納しておきたい
+            Plane plane = new Plane(threePoints[0], threePoints[1], threePoints[2]);
+            List<Vector3> result = new List<Vector3>();
+            for(int i=0; i<list.Count; i++)
+            {
+                Senbun senbun = list[i];
+                Vector3 v1 = senbun.p1;
+                Vector3 v2 = senbun.p2;
+
+                //平面上の点P
+                Vector3 P = new Vector3(plane.normal.x * plane.distance, plane.normal.y * plane.distance, plane.normal.z * plane.distance);
+
+                //PA PBベクトル
+                Vector3 PA = new Vector3(P.x - v1.x, P.y - v1.y, P.z - v1.z);
+                Vector3 PB = new Vector3(P.x - v2.x, P.y - v2.y, P.z - v2.z);
+
+                double dot_PA = PA.x * plane.normal.x + PA.y * plane.normal.y + PA.z * plane.normal.z;
+                double dot_PB = PB.x * plane.normal.x + PB.y * plane.normal.y + PB.z * plane.normal.z;
+
+                if ((dot_PA >= 0.0 && dot_PB <= 0.0) || (dot_PA <= 0.0 && dot_PB >= 0.0))
+                {
+                    Vector3 AB = new Vector3(v2.x - v1.x, v2.y - v1.y, v2.z - v1.z);
+
+                    //交点とAの距離 : 交点とBの距離 = dot_PA : dot_PB
+                    double ratio = System.Math.Abs(dot_PA) / (System.Math.Abs(dot_PA) + System.Math.Abs(dot_PB));
+
+                    Vector3 crossPoint = new Vector3();
+	                crossPoint.x = (float)(v1.x + (AB.x * ratio));
+                    crossPoint.y = (float)(v1.y + (AB.y * ratio));
+                    crossPoint.z = (float)(v1.z + (AB.z * ratio));
+
+                    result.Add(crossPoint);
+
+                }
+            }
+
+            Debug.Log("should be more than 3: " + result.Count);
             return result;
         }
 
         //3点が同一平面上にあるかどうかを返してくれるよ
-        private bool pointsOnOneSide(Vector3 a, Vector3 b, Vector3 c)
+        private bool PointsOnOneSide(Vector3 a, Vector3 b, Vector3 c)
         {
             if (a.x == b.x && b.x == c.x && a.x == c.x)
             {
@@ -164,14 +198,14 @@ namespace CubeSetup
         }
 
         //辺上の点の座標を返してくれるよ
-        Vector3 Middlepoint(Senbun senbun, int random)
+        Vector3 PointOnLine(Senbun senbun, int random)
         {
-            float middleX = senbun.p1.x + (senbun.p2.x - senbun.p1.x) / 10 * random;
-            float middleY = senbun.p1.y + (senbun.p2.y - senbun.p1.y) / 10 * random;
-            float middleZ = senbun.p1.z + (senbun.p2.z - senbun.p1.z) / 10 * random;
-            Vector3 middlepoint = new Vector3(middleX, middleY, middleZ);
+            float middleX = senbun.p1.x + (senbun.p2.x - senbun.p1.x) / 4 * random;
+            float middleY = senbun.p1.y + (senbun.p2.y - senbun.p1.y) / 4 * random;
+            float middleZ = senbun.p1.z + (senbun.p2.z - senbun.p1.z) / 4 * random;
+            Vector3 pointCoordinate = new Vector3(middleX, middleY, middleZ);
 
-            return middlepoint;
+            return pointCoordinate;
         }
 
 
