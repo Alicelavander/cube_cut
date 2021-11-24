@@ -58,7 +58,7 @@ public class AnswerCameraDirector : MonoBehaviour
         //crossPointsShiftedの並び替え
         sortedList = GetPointsSort(crossPointsShifted);
 
-        Debug.Log($"number of vertices: {sortedList.Count}");
+        //Debug.Log($"number of vertices: {sortedList.Count}");
         mesh.vertices = sortedList.ToArray();
         var triangles = new List<int>();
         for (int i = 0; i < sortedList.Count - 2; i++)
@@ -78,7 +78,7 @@ public class AnswerCameraDirector : MonoBehaviour
     {
         p4 = Vector3.Cross(sortedList[1] - sortedList[0], sortedList[2] - sortedList[0]);
         n = Vector3.Normalize(p4);
-        cp = n * 3;
+        cp = n * 2;
 
         this.transform.position = createMeshDirector.transform.position + cp + shiftVector;
 

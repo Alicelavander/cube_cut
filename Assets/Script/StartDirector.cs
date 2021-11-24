@@ -5,18 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class StartDirector : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnClick()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            SceneManager.LoadScene("Question");
-        }
+        SceneManager.LoadScene("Question");
     }
 }

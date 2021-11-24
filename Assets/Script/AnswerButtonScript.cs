@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AnswerButtonScript : MonoBehaviour
 {
@@ -31,5 +32,7 @@ public class AnswerButtonScript : MonoBehaviour
         coordinates += "})";
 
         Debug.Log(coordinates);
+
+        SceneManager.LoadScene("Answer");
     }
 }

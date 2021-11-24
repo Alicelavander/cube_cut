@@ -12,6 +12,7 @@ namespace CubeSetup
         public GameObject spherePrefab;
         public GameObject[] sphereObject = new GameObject[3];
         public AnswerCameraDirector[] answerCameraDirector;
+        int answer;
 
         // Start is called before the first frame update
         void Start()
@@ -43,9 +44,15 @@ namespace CubeSetup
 
             //図形4つ決めるよ(正確にはその頂点達の座標を決めるよ)
             List<List<Vector3>> vertexList = new List<List<Vector3>>();
-            for (int i = 0; i < 4; i++)
+            List<int> numberOfVertices = new List<int> { 3, 4, 5, 6 };
+            while (numberOfVertices.Count != 0)
             {
-                vertexList.Add(DecidePoints(new List<Senbun>(CubeSidesList)));
+                List<Vector3> Points = DecidePoints(new List<Senbun>(CubeSidesList));
+                if (numberOfVertices.Find(n => n == Points.Count) != 0)
+                {
+                    vertexList.Add(Points);
+                    numberOfVertices.Remove(Points.Count);
+                }
             }
 
             //立方体を描画するよ
@@ -60,12 +67,15 @@ namespace CubeSetup
                 lineRenderer.SetPosition(0, CubeSidesList[i].p1);
                 lineRenderer.SetPosition(1, CubeSidesList[i].p2);
             }
+            //答えになる図形を決めるよ
+            answer = Random.Range(0, 4);
             //立方体上に3点を描画するよ
             for (int j = 0; j < 3; j++)
             {
                 sphereObject[j] = Instantiate(spherePrefab);
-                sphereObject[j].transform.position = vertexList[0][j];
+                sphereObject[j].transform.position = vertexList[answer][j];
             }
+            Debug.Log($"answer is: {answer}");
             //カメラを移動させるよ
             for (int i = 0; i < 4; i++)
             {
@@ -79,15 +89,24 @@ namespace CubeSetup
             {
                 //3点をつくるよ
                 List<List<Vector3>> vertexList = new List<List<Vector3>>();
-                for (int i = 0; i < 4; i++)
+                List<int> numberOfVertices = new List<int> { 3, 4, 5, 6 };
+                while (numberOfVertices.Count != 0)
                 {
-                    vertexList.Add(DecidePoints(new List<Senbun>(CubeSidesList)));
+                    List<Vector3> Points = DecidePoints(new List<Senbun>(CubeSidesList));
+                    if (numberOfVertices.Find(n => n == Points.Count) != 0)
+                    {
+                        vertexList.Add(Points);
+                        numberOfVertices.Remove(Points.Count);
+                    }
                 }
-                //立方体上の3点を動かすよ
+                //答えになる図形を決めるよ
+                answer = Random.Range(0, 4);
+                //立方体上に3点を描画するよ
                 for (int j = 0; j < 3; j++)
                 {
-                    sphereObject[j].transform.position = vertexList[0][j];
+                    sphereObject[j].transform.position = vertexList[answer][j];
                 }
+                Debug.Log($"answer is: {answer}");
                 //カメラを動かすよ
                 for (int i = 0; i < answerCameraDirector.Length; i++)
                 {
@@ -127,9 +146,9 @@ namespace CubeSetup
             //ランダムで3点を決める
             while (threePoints.Count != 3)
             {
-                int randomLine = Random.Range(0, listClone.Count - 1);
+                int randomLine = Random.Range(0, listClone.Count);
                 Senbun a = listClone[randomLine];
-                int randomPoint = Random.Range(1, 3);
+                int randomPoint = Random.Range(1, 4);
                 Vector3 pos = PointOnLine(a, randomPoint);
 
                 if (threePoints.Count == 2 && PointsOnOneSide(threePoints[0], threePoints[1], pos) == true)
@@ -186,7 +205,6 @@ namespace CubeSetup
                     if (!overlap) result.Add(crossPoint);
                 }
             }
-            //手順3
             return result;
         }
 
