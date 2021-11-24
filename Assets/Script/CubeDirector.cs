@@ -67,15 +67,15 @@ namespace CubeSetup
                 sphereObject[j].transform.position = vertexList[0][j];
             }
             //カメラを移動させるよ
-            for (int i=0; i < 4; i++)
+            for (int i = 0; i < 4; i++)
             {
-                answerCameraDirector[i].MoveCamera(new Vector3(10 * (i+1), 0, 0), vertexList[i]);
+                answerCameraDirector[i].MoveCamera(new Vector3(10 * (i + 1), 0, 0), vertexList[i]);
             }
         }
 
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetKeyDown("space"))
             {
                 //3点をつくるよ
                 List<List<Vector3>> vertexList = new List<List<Vector3>>();
@@ -88,9 +88,10 @@ namespace CubeSetup
                 {
                     sphereObject[j].transform.position = vertexList[0][j];
                 }
+                //カメラを動かすよ
                 for (int i = 0; i < answerCameraDirector.Length; i++)
                 {
-                    answerCameraDirector[i].MoveCamera(new Vector3(10 * (i+1), 0, 0), vertexList[i]);
+                    answerCameraDirector[i].MoveCamera(new Vector3(10 * (i + 1), 0, 0), vertexList[i]);
                 }
             }
         }
@@ -118,12 +119,12 @@ namespace CubeSetup
             }
         }
 
-        
         List<Vector3> DecidePoints(List<Senbun> list)
         {
-            //3点を決める
             List<Vector3> threePoints = new List<Vector3>();
             List<Senbun> listClone = new List<Senbun>(list);
+
+            //ランダムで3点を決める
             while (threePoints.Count != 3)
             {
                 int randomLine = Random.Range(0, listClone.Count - 1);
@@ -138,11 +139,12 @@ namespace CubeSetup
                 listClone.RemoveAt(randomLine);
                 threePoints.Add(pos);
             }
+            //Debug.Log($"{threePoints.Count} threePoints: {threePoints[0]}, {threePoints[1]},{threePoints[2]}");
 
-            //3点を通った平面で切断したときに通る他の点も格納しておきたい
+            //上の3点を通った平面で切断したときに通る他の点もリストに追加する
             Plane plane = new Plane(threePoints[0], threePoints[1], threePoints[2]);
             List<Vector3> result = new List<Vector3>();
-            for(int i=0; i<list.Count; i++)
+            for (int i = 0; i < list.Count; i++)
             {
                 Senbun senbun = list[i];
                 Vector3 v1 = senbun.p1;
@@ -158,24 +160,33 @@ namespace CubeSetup
                 double dot_PA = PA.x * plane.normal.x + PA.y * plane.normal.y + PA.z * plane.normal.z;
                 double dot_PB = PB.x * plane.normal.x + PB.y * plane.normal.y + PB.z * plane.normal.z;
 
-                if ((dot_PA >= 0.0 && dot_PB <= 0.0) || (dot_PA <= 0.0 && dot_PB >= 0.0))
+                if (System.Math.Abs(dot_PA) < 0.000001) { dot_PA = 0.0; }
+                if (System.Math.Abs(dot_PB) < 0.000001) { dot_PB = 0.0; }
+
+                if (dot_PA == 0.0 && dot_PB == 0.0) continue;
+                else if ((dot_PA >= 0.0 && dot_PB <= 0.0) || (dot_PA <= 0.0 && dot_PB >= 0.0))
                 {
                     Vector3 AB = new Vector3(v2.x - v1.x, v2.y - v1.y, v2.z - v1.z);
 
                     //交点とAの距離 : 交点とBの距離 = dot_PA : dot_PB
                     double ratio = System.Math.Abs(dot_PA) / (System.Math.Abs(dot_PA) + System.Math.Abs(dot_PB));
 
+
                     Vector3 crossPoint = new Vector3();
-	                crossPoint.x = (float)(v1.x + (AB.x * ratio));
+                    crossPoint.x = (float)(v1.x + (AB.x * ratio));
                     crossPoint.y = (float)(v1.y + (AB.y * ratio));
                     crossPoint.z = (float)(v1.z + (AB.z * ratio));
 
-                    result.Add(crossPoint);
-
+                    //Debug.Log($"Adding new crosspoint: {crossPoint}, ratio: {ratio}, dot_PA: {dot_PA}, dot_PB: {dot_PB}");
+                    bool overlap = false;
+                    for (int j = 0; j < result.Count; j++)
+                    {
+                        if (result[j] == crossPoint) overlap = true;
+                    }
+                    if (!overlap) result.Add(crossPoint);
                 }
             }
-
-            Debug.Log("should be more than 3: " + result.Count);
+            //手順3
             return result;
         }
 

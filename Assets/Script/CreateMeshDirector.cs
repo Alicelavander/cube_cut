@@ -9,7 +9,7 @@ public class CreateMeshDirector : MonoBehaviour
 {
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown("space"))
         {
             Destroy(gameObject);
         }

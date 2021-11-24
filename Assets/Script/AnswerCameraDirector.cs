@@ -29,6 +29,7 @@ public class AnswerCameraDirector : MonoBehaviour
     }
     public GameObject[] sphereObject;
     public GameObject createMeshDirectorPrefab;
+    public List<Vector3> sortedList;
     List<Vector3> crossPointsShifted;
     Vector3 p4;
     Vector3 n;
@@ -55,25 +56,16 @@ public class AnswerCameraDirector : MonoBehaviour
 
         var mesh = new Mesh();
         //crossPointsShiftedの並び替え
-        List<Vector3> sortedList = GetPointsSort(crossPointsShifted);
-        //Debug.Log(crossPointsShifted.Count + ", " + sortedList.Count);
+        sortedList = GetPointsSort(crossPointsShifted);
 
+        Debug.Log($"number of vertices: {sortedList.Count}");
         mesh.vertices = sortedList.ToArray();
         var triangles = new List<int>();
         for (int i = 0; i < sortedList.Count - 2; i++)
         {
-            if(i%2 == 0)
-            {
-                triangles.Add(i);
-                triangles.Add(1 + i);
-                triangles.Add(2 + i);
-            }
-            else
-            {
-                triangles.Add(i);
-                triangles.Add(2 + i);
-                triangles.Add(1 + i);
-            }
+            triangles.Add(0);
+            triangles.Add(1 + i);
+            triangles.Add(2 + i);
         }
         mesh.SetTriangles(triangles, 0);
         var filter = createMeshDirector.GetComponent<MeshFilter>();
@@ -98,19 +90,25 @@ public class AnswerCameraDirector : MonoBehaviour
     //内積の小さい順に並べるよ
     private List<Vector3> GetPointsSort(List<Vector3> list)
     {
-        Debug.Log("Original list");
-        for (int i = 0; i < list.Count(); i++) Debug.Log(list[i]);
+        //Debug.Log("Original list");
+        //for (int i = 0; i < list.Count(); i++) Debug.Log(list[i]);
 
+        Vector3 list_zero = list[0];
         Vector3 minDisVec = list[1];
         for (int k = 1; k < list.Count(); k++)
         {
-            if (Vector3.Distance(list[0], minDisVec) > Vector3.Distance(list[0], list[k])) minDisVec = list[k];
+            if (Vector3.Distance(list_zero, minDisVec) > Vector3.Distance(list_zero, list[k])) minDisVec = list[k];
         }
-        Debug.Log("minDisVec: " + minDisVec);
+        //Debug.Log("minDisVec: " + minDisVec);
 
-        list.Sort(new VectorComparer(minDisVec, list[0]));
+        list.Remove(list_zero);
+        list.Remove(minDisVec);
+        list.Sort(new VectorComparer(minDisVec - list_zero, list_zero));
+        list.Insert(0, minDisVec);
+        list.Insert(0, list_zero);
 
-        for(int i=0; i<list.Count(); i++) Debug.Log(list[i]);
+        //Debug.Log("Sorted list");
+        //for(int i=0; i<list.Count(); i++) Debug.Log(list[i]);
 
         return list;
     }
