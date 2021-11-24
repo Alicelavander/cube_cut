@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class AnswerButtonScript : MonoBehaviour
 {
-    public int AnswerNumber;
-    public AnswerCameraDirector[] answerCameraDirector;
+    public static int answerNumber;
+    AnswerCameraDirector[] answerCameraDirector;
 
     // Start is called before the first frame update
     void Start()
@@ -20,9 +20,9 @@ public class AnswerButtonScript : MonoBehaviour
 
     public void OnClick()
     {
-        Debug.Log("Number " + AnswerNumber + " was pressed.");
+        Debug.Log("Number " + answerNumber + " was pressed.");
 
-        List<Vector3> sortedList = answerCameraDirector[AnswerNumber - 1].sortedList;
+        List<Vector3> sortedList = answerCameraDirector[answerNumber - 1].sortedList;
         string coordinates = "Point({";
         for(int i=0; i<sortedList.Count; i++)
         {

@@ -12,7 +12,7 @@ namespace CubeSetup
         public GameObject spherePrefab;
         public GameObject[] sphereObject = new GameObject[3];
         public AnswerCameraDirector[] answerCameraDirector;
-        int answer;
+        public static int answer;
 
         // Start is called before the first frame update
         void Start()
