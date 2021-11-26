@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class AnswerSceneDirector : MonoBehaviour
 {
@@ -13,9 +14,9 @@ public class AnswerSceneDirector : MonoBehaviour
         else score.text = "不正解";
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnClick()
     {
-        
+        Debug.Log("Button pressed.");
+        SceneManager.LoadScene("Question");
     }
 }

@@ -18,11 +18,12 @@ public class AnswerButtonScript : MonoBehaviour
         answerCameraDirector[3] = GameObject.Find("AnswerCamera4").GetComponent<AnswerCameraDirector>();
     }
 
-    public void OnClick()
+    public void OnClick(int selectedButton)
     {
+        answerNumber = selectedButton;
         Debug.Log("Number " + answerNumber + " was pressed.");
 
-        List<Vector3> sortedList = answerCameraDirector[answerNumber - 1].sortedList;
+        List<Vector3> sortedList = answerCameraDirector[answerNumber].sortedList;
         string coordinates = "Point({";
         for(int i=0; i<sortedList.Count; i++)
         {

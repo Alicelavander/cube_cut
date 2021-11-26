@@ -69,6 +69,7 @@ namespace CubeSetup
             }
             //答えになる図形を決めるよ
             answer = Random.Range(0, 4);
+            Debug.Log(answer);
             //立方体上に3点を描画するよ
             for (int j = 0; j < 3; j++)
             {
@@ -80,38 +81,6 @@ namespace CubeSetup
             for (int i = 0; i < 4; i++)
             {
                 answerCameraDirector[i].MoveCamera(new Vector3(10 * (i + 1), 0, 0), vertexList[i]);
-            }
-        }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown("space"))
-            {
-                //3点をつくるよ
-                List<List<Vector3>> vertexList = new List<List<Vector3>>();
-                List<int> numberOfVertices = new List<int> { 3, 4, 5, 6 };
-                while (numberOfVertices.Count != 0)
-                {
-                    List<Vector3> Points = DecidePoints(new List<Senbun>(CubeSidesList));
-                    if (numberOfVertices.Find(n => n == Points.Count) != 0)
-                    {
-                        vertexList.Add(Points);
-                        numberOfVertices.Remove(Points.Count);
-                    }
-                }
-                //答えになる図形を決めるよ
-                answer = Random.Range(0, 4);
-                //立方体上に3点を描画するよ
-                for (int j = 0; j < 3; j++)
-                {
-                    sphereObject[j].transform.position = vertexList[answer][j];
-                }
-                Debug.Log($"answer is: {answer}");
-                //カメラを動かすよ
-                for (int i = 0; i < answerCameraDirector.Length; i++)
-                {
-                    answerCameraDirector[i].MoveCamera(new Vector3(10 * (i + 1), 0, 0), vertexList[i]);
-                }
             }
         }
 
