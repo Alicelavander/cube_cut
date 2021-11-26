@@ -69,7 +69,6 @@ namespace CubeSetup
             }
             //答えになる図形を決めるよ
             answer = Random.Range(0, 4);
-            Debug.Log(answer);
             //立方体上に3点を描画するよ
             for (int j = 0; j < 3; j++)
             {
