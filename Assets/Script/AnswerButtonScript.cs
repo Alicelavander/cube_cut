@@ -31,7 +31,6 @@ public class AnswerButtonScript : MonoBehaviour
             if (i != sortedList.Count - 1) coordinates += ",";
         }
         coordinates += "})";
-
         Debug.Log(coordinates);
 
         SceneManager.LoadScene("Answer");

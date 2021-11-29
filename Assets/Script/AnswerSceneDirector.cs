@@ -7,16 +7,25 @@ using UnityEngine.SceneManagement;
 public class AnswerSceneDirector : MonoBehaviour
 {
     public Text score;
+
     // Start is called before the first frame update
     void Start()
     {
         if (CubeSetup.CubeDirector.answer == AnswerButtonScript.answerNumber) score.text = "正解";
-        else score.text = "不正解";
+        else
+        {
+            score.text = "不正解";
+            CubeSetup.CubeDirector.wronganswers.Add(CubeSetup.CubeDirector.questionNumber);
+        }
     }
 
     public void OnClick()
     {
-        Debug.Log("Button pressed.");
-        SceneManager.LoadScene("Question");
+        if (CubeSetup.CubeDirector.questionNumber == 20) SceneManager.LoadScene("FinishRound");
+        else
+        {
+            SceneManager.LoadScene("Question");
+            CubeSetup.CubeDirector.questionNumber++;
+        }
     }
 }

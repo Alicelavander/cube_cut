@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace CubeSetup
 {
-
     public class CubeDirector : MonoBehaviour
     {
         List<Senbun> CubeSidesList = new List<Senbun>();
@@ -12,11 +12,16 @@ namespace CubeSetup
         public GameObject spherePrefab;
         public GameObject[] sphereObject = new GameObject[3];
         public AnswerCameraDirector[] answerCameraDirector;
+        public Text question;
+        public static List<int> wronganswers = new List<int>();
         public static int answer;
+        public static int questionNumber = 1;
 
         // Start is called before the first frame update
         void Start()
         {
+            question.text = $"{questionNumber} / 20";
+
             answerCameraDirector = new AnswerCameraDirector[4];
             answerCameraDirector[0] = GameObject.Find("AnswerCamera1").GetComponent<AnswerCameraDirector>();
             answerCameraDirector[1] = GameObject.Find("AnswerCamera2").GetComponent<AnswerCameraDirector>();
