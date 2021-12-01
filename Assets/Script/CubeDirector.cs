@@ -20,7 +20,7 @@ namespace CubeSetup
         // Start is called before the first frame update
         void Start()
         {
-            question.text = $"{questionNumber} / 20";
+            question.text = $"{questionNumber}.";
 
             answerCameraDirector = new AnswerCameraDirector[4];
             answerCameraDirector[0] = GameObject.Find("AnswerCamera1").GetComponent<AnswerCameraDirector>();

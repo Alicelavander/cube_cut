@@ -7,11 +7,4 @@ using System.Collections.Generic;
 
 public class CreateMeshDirector : MonoBehaviour
 {
-    private void Update()
-    {
-        if (Input.GetKeyDown("space"))
-        {
-            Destroy(gameObject);
-        }
-    }
 }

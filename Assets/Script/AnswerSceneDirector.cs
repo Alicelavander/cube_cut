@@ -21,7 +21,7 @@ public class AnswerSceneDirector : MonoBehaviour
 
     public void OnClick()
     {
-        if (CubeSetup.CubeDirector.questionNumber == 20) SceneManager.LoadScene("FinishRound");
+        if (CubeSetup.CubeDirector.questionNumber == 2) SceneManager.LoadScene("FinishRound");
         else
         {
             SceneManager.LoadScene("Question");
