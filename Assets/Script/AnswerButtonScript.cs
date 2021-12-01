@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Cube_cut;
 
 public class AnswerButtonScript : MonoBehaviour
 {
-    public static int answerNumber;
     AnswerCameraDirector[] answerCameraDirector;
 
     // Start is called before the first frame update
@@ -20,10 +20,10 @@ public class AnswerButtonScript : MonoBehaviour
 
     public void OnClick(int selectedButton)
     {
-        answerNumber = selectedButton;
-        Debug.Log("Number " + answerNumber + " was pressed.");
+        GameManager.Instance.currentQuestion.selectedAnswer = selectedButton;
+        Debug.Log("Number " + selectedButton + " was pressed.");
 
-        List<Vector3> sortedList = answerCameraDirector[answerNumber].sortedList;
+        List<Vector3> sortedList = answerCameraDirector[selectedButton].sortedList;
         string coordinates = "Point({";
         for(int i=0; i<sortedList.Count; i++)
         {

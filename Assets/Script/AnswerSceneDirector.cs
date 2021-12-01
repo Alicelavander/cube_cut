@@ -3,29 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Cube_cut;
+using CubeSetup;
 
-public class AnswerSceneDirector : MonoBehaviour
+public class AnswerSceneDirector : CubeDirectorBase
 {
     public Text score;
 
     // Start is called before the first frame update
     void Start()
     {
-        if (CubeSetup.CubeDirector.answer == AnswerButtonScript.answerNumber) score.text = "正解";
+        if (GameManager.Instance.currentQuestion.IsCorrect) score.text = "正解";
         else
         {
             score.text = "不正解";
-            CubeSetup.CubeDirector.wronganswers.Add(CubeSetup.CubeDirector.questionNumber);
         }
+
+        //Cubeの描写
+        DrawCubeLine();
+
+        //答えの描写(On Cube)
     }
 
     public void OnClick()
     {
-        if (CubeSetup.CubeDirector.questionNumber == 2) SceneManager.LoadScene("FinishRound");
+        if (GameManager.Instance.questionNumber() == 20) SceneManager.LoadScene("FinishRound");
         else
         {
             SceneManager.LoadScene("Question");
-            CubeSetup.CubeDirector.questionNumber++;
         }
     }
 }
