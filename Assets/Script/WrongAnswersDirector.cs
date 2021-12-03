@@ -14,13 +14,13 @@ public class WrongAnswersDirector : MonoBehaviour
         var scrollView = GameObject.Find("Scroll View");
         var viewPort = scrollView.transform.Find("Viewport");
         Transform content = viewPort.transform.Find("Content");
-        int wrongAnswers = GameManager.Instance.WrongAnswerNumber();
+        List<int> wrongAnswers = GameManager.Instance.WrongAnswers();
 
-        for(int i=0; i<GameManager.Instance.questionNumber(); i++)
+        for(int i=0; i< wrongAnswers.Count; i++)
         {
             GameObject button = Instantiate(buttonPrefab);
             button.transform.SetParent(content);
-            button.GetComponentInChildren<Text>().text = $"Q. {i}";
+            button.GetComponentInChildren<Text>().text = $"Q. {wrongAnswers[i]}";
         }
     }
 

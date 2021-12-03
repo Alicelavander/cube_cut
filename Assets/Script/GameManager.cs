@@ -17,19 +17,17 @@ namespace Cube_cut
         }
 
         private List<QuestionData> questionDatas = new List<QuestionData>();
-        public List<Senbun> CubeSidesList;
 
         private GameManager()
         {
         }
 
-
-        public int WrongAnswerNumber()
+        public List<int> WrongAnswers()
         {
-            int number = 0;
+            List<int> number = new List<int>();
             for(int i=0; i<questionDatas.Count; i++)
             {
-                if (!questionDatas[i].IsCorrect) number++;
+                if (!questionDatas[i].IsCorrect) number.Add(i+1);
             }
 
             return number;
@@ -40,13 +38,13 @@ namespace Cube_cut
             questionDatas.Add(questiondata);
         }
 
-        public int questionNumber()
+        public int QuestionNumber()
         {
-            int questionNumber = questionDatas.Count + 1;
+            int questionNumber = questionDatas.Count;
             return questionNumber;
         }
 
-        public QuestionData currentQuestion
+        public QuestionData CurrentQuestion
         {
             get
             {

@@ -20,7 +20,7 @@ public class AnswerButtonScript : MonoBehaviour
 
     public void OnClick(int selectedButton)
     {
-        GameManager.Instance.currentQuestion.selectedAnswer = selectedButton;
+        GameManager.Instance.CurrentQuestion.selectedAnswer = selectedButton;
         Debug.Log("Number " + selectedButton + " was pressed.");
 
         List<Vector3> sortedList = answerCameraDirector[selectedButton].sortedList;

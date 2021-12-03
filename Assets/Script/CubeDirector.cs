@@ -145,7 +145,7 @@ namespace CubeSetup
                 answerCameraDirector[i].MoveCamera(new Vector3(10 * (i + 1), 0, 0), questiondata.answerOptions[i]);
             }
 
-            question.text = $"{GameManager.Instance.questionNumber()}.";
+            question.text = $"{GameManager.Instance.QuestionNumber()}.";
         }
 
         //ダブってた頂点の情報を整理してくれるよ
