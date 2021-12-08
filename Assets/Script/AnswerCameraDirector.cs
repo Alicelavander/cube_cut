@@ -29,7 +29,7 @@ public class AnswerCameraDirector : MonoBehaviour
     }
     public GameObject[] sphereObject;
     public GameObject createMeshDirectorPrefab;
-    public List<Vector3> sortedList;
+    public List<Vector3> sortedList = new List<Vector3>();
     List<Vector3> crossPointsShifted;
     Vector3 p4;
     Vector3 n;
@@ -46,10 +46,11 @@ public class AnswerCameraDirector : MonoBehaviour
             crossPointsShifted.Add(crossPoints[i] + shiftVector);
         }
 
-        DrawMesh(shiftVector);
+        GameObject drawMesh = DrawMesh(createMeshDirectorPrefab, crossPointsShifted);
+        LookAtMesh(drawMesh, shiftVector, GetPointsSort(crossPointsShifted));
     }
 
-    private void DrawMesh(Vector3 shiftVector)
+    public GameObject DrawMesh(GameObject createMeshDirectorPrefab, List<Vector3> crossPointsShifted)
     {
         GameObject createMeshDirector;
         createMeshDirector = Instantiate(createMeshDirectorPrefab) as GameObject;
@@ -71,7 +72,7 @@ public class AnswerCameraDirector : MonoBehaviour
         var filter = createMeshDirector.GetComponent<MeshFilter>();
         filter.sharedMesh = mesh;
 
-        LookAtMesh(createMeshDirector, shiftVector, sortedList);
+        return createMeshDirector;
     }
 
     private void LookAtMesh(GameObject createMeshDirector, Vector3 shiftVector, List<Vector3> sortedList)

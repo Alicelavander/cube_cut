@@ -589,8 +589,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: {fileID: 202479440}
-  cube: {fileID: 0}
-  linePreFab: {fileID: 3051499749077678385, guid: cbfa80fd2e0598e4f9bd3084840828d1,
+  spherePrefab: {fileID: 1131459429108216072, guid: f58654a7669b5884e8310f01e97ab3b2,
     type: 3}
 --- !u!4 &864556619
 Transform:
