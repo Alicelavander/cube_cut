@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using CubeSetup;
+using Cubes;
 
 namespace Cube_cut
 {
@@ -51,6 +51,7 @@ namespace Cube_cut
                 return questionDatas[questionDatas.Count - 1];
             }
         }
+ 
     }
 
     public class QuestionData

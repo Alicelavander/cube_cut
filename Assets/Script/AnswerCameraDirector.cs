@@ -1,4 +1,4 @@
-﻿using CubeSetup;
+﻿using Cubes;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,7 +37,7 @@ public class AnswerCameraDirector : MonoBehaviour
 
     public void MoveCamera(Vector3 shiftVector, List<Vector3> crossPoints)
     {
-        sphereObject = GameObject.Find("Cube").GetComponent<CubeDirector>().sphereObject;
+        sphereObject = GameObject.Find("QuestionSceneDirector").GetComponent<QuestionSceneDirector>().sphereObject;
         crossPointsShifted = new List<Vector3>();
 
         //Debug.Log("crossPoints: " + crossPoints.Count);

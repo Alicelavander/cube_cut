@@ -4,11 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Cube_cut;
-using CubeSetup;
+using Cubes;
 
 public class AnswerSceneDirector : MonoBehaviour
 {
     public Text score;
+    public GameObject cube;
+    public GameObject linePreFab;
 
     // Start is called before the first frame update
     void Start()
@@ -19,10 +21,6 @@ public class AnswerSceneDirector : MonoBehaviour
             score.text = "不正解";
         }
 
-        //Cubeの描写
-        //DrawCubeLine();
-
-        //答えの描写(On Cube)
     }
 
     public void OnClick()
