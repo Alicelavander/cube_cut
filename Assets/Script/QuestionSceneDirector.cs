@@ -17,6 +17,8 @@ namespace Cubes
         // Start is called before the first frame update
         void Start()
         {
+            CubeSetup cubesetup = cube.GetComponent<CubeSetup>();
+
             answerCameraDirector = new AnswerCameraDirector[4];
             answerCameraDirector[0] = GameObject.Find("AnswerCamera1").GetComponent<AnswerCameraDirector>();
             answerCameraDirector[1] = GameObject.Find("AnswerCamera2").GetComponent<AnswerCameraDirector>();
@@ -26,9 +28,12 @@ namespace Cubes
             //図形4つ決めるよ(正確にはその頂点達の座標を決めるよ)
             List<List<Vector3>> vertexList = new List<List<Vector3>>();
             List<int> numberOfVertices = new List<int> { 3, 4, 5, 6 };
+            
+            cubesetup.SetCubeLine(cube);
+
             while (numberOfVertices.Count != 0)
             {
-                List<Vector3> Points = DecidePoints(cube.GetComponent<CubeSetup>().CubeSidesList);
+                List<Vector3> Points = DecidePoints(cubesetup.CubeSidesList);
                 if (numberOfVertices.Find(n => n == Points.Count) != 0)
                 {
                     vertexList.Add(Points);
@@ -62,6 +67,7 @@ namespace Cubes
             //ランダムで3点を決める
             while (threePoints.Count != 3)
             {
+                Debug.Log(listClone.Count);
                 int randomLine = Random.Range(0, listClone.Count);
                 Senbun a = listClone[randomLine];
                 int randomPoint = Random.Range(1, 4);

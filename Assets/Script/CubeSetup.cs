@@ -7,11 +7,13 @@ public class CubeSetup : MonoBehaviour
 {
     public GameObject linePrefab;
     public List<Senbun> CubeSidesList = new List<Senbun>();
+    GameObject cube;
 
     // Start is called before the first frame update
     void Start()
     {
-        SetCubeLine(this.gameObject);
+        cube = GameObject.Find("Cube");
+        SetCubeLine(cube);
         DrawCubeLine(linePrefab);
     }
 
