@@ -21,8 +21,16 @@ public class AnswerSceneDirector : MonoBehaviour
         if (GameManager.Instance.QuestionNumber() == 1) tutorial.color = new Color(0.7f, 0.7f, 0.7f, 1);
 
         List<Vector3> currentAnswers = GameManager.Instance.CurrentQuestion.answerOptions[GameManager.Instance.CurrentQuestion.answer];
-        if (GameManager.Instance.CurrentQuestion.IsCorrect) score.text = "正解";
-        else score.text = "不正解";
+        if (GameManager.Instance.CurrentQuestion.IsCorrect)
+        {
+            score.text = "正解";
+            score.color = Color.red;
+        }
+        else
+        {
+            score.text = "不正解";
+            score.color = Color.blue;
+        }
 
         for (int j = 0; j < 3; j++)
         {
