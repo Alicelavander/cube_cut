@@ -295,7 +295,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 504fb9e4adfaa1345a087c2d284bd91b, type: 3}
-    m_FontSize: 70
+    m_FontSize: 50
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -346,6 +346,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 218530710}
+  - {fileID: 202479439}
   m_Father: {fileID: 1827830556}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -475,7 +476,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1827830556}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -992,7 +993,6 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 265138400}
-  - {fileID: 202479439}
   - {fileID: 518215132}
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -1007,7 +1007,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1827830556}
+    m_TransformParent: {fileID: 265138400}
     m_Modifications:
     - target: {fileID: 4782901210938066680, guid: df1050b8d0444944c868eb1243787d23,
         type: 3}
@@ -1027,17 +1027,17 @@ PrefabInstance:
     - target: {fileID: 4782901210938066680, guid: df1050b8d0444944c868eb1243787d23,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4782901210938066680, guid: df1050b8d0444944c868eb1243787d23,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4782901210938066680, guid: df1050b8d0444944c868eb1243787d23,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4782901210938066680, guid: df1050b8d0444944c868eb1243787d23,
         type: 3}
@@ -1067,12 +1067,12 @@ PrefabInstance:
     - target: {fileID: 4782901210938066680, guid: df1050b8d0444944c868eb1243787d23,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: -100.00001
       objectReference: {fileID: 0}
     - target: {fileID: 4782901210938066680, guid: df1050b8d0444944c868eb1243787d23,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -350
+      value: 1182.2667
       objectReference: {fileID: 0}
     - target: {fileID: 4782901210938066680, guid: df1050b8d0444944c868eb1243787d23,
         type: 3}

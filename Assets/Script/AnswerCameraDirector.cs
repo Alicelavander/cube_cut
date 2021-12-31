@@ -70,7 +70,6 @@ public class AnswerCameraDirector : MonoBehaviour
         }
         mesh.SetTriangles(triangles, 0);
         var filter = createMeshDirector.GetComponent<MeshFilter>();
-        filter.GetComponent<Renderer>().material.shader = Shader.Find("Shaders/standard_cullOff");
         filter.sharedMesh = mesh;
 
         return createMeshDirector;
