@@ -3,7 +3,7 @@ public class RotateCube : MonoBehaviour
 {
     public GameObject CameraTarget;
 
-    [SerializeField, Range(0.1f, 1f)] private float rotateSpeed = 1f;
+    [SerializeField, Range(0.1f, 1f)] private float rotateSpeed = 0.6f;
     private Vector3 preMousePosition;
 
     private void Update()

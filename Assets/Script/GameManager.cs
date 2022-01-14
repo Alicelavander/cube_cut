@@ -33,6 +33,11 @@ namespace Cube_cut
             return number;
         }
 
+        public void Reset()
+        {
+            questionDatas.Clear();
+        }
+
         public void Add(QuestionData questiondata)
         {
             questionDatas.Add(questiondata);
