@@ -67,7 +67,6 @@ namespace Cubes
             //ランダムで3点を決める
             while (threePoints.Count != 3)
             {
-                Debug.Log(listClone.Count);
                 int randomLine = Random.Range(0, listClone.Count);
                 Senbun a = listClone[randomLine];
                 int randomPoint = Random.Range(1, 4);

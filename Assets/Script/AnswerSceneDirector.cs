@@ -18,18 +18,23 @@ public class AnswerSceneDirector : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ColorUtility.TryParseHtmlString("#FF99CC", out Color red);
+        ColorUtility.TryParseHtmlString("#99B8FF", out Color blue);
+
         if (GameManager.Instance.QuestionNumber() == 1) tutorial.color = new Color(0.7f, 0.7f, 0.7f, 1);
 
         List<Vector3> currentAnswers = GameManager.Instance.CurrentQuestion.answerOptions[GameManager.Instance.CurrentQuestion.answer];
         if (GameManager.Instance.CurrentQuestion.IsCorrect)
         {
             score.text = "正解";
-            score.color = Color.red;
+            score.color = red;
+            Debug.Log(score.color);
         }
         else
         {
             score.text = "不正解";
-            score.color = Color.blue;
+            score.color = blue;
+            Debug.Log(score.color);
         }
 
         for (int j = 0; j < 3; j++)
