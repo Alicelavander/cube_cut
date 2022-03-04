@@ -417,9 +417,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Drag around to
-
-    rotate the cube'
+  m_Text: "\u30C9\u30E9\u30C3\u30B0\u3067\n\u7ACB\u65B9\u4F53\u3092\u56DE\u3059"
 --- !u!222 &518215134
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -581,7 +579,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20db9d5d9e10a534fb6a53d8968a48b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sphereObject: []
   createMeshDirectorPrefab: {fileID: 7284373145500493925, guid: 65af41ecf625f8c4e8efad287e020886,
     type: 3}
   sortedList: []
