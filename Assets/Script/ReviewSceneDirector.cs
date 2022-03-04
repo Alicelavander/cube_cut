@@ -56,8 +56,13 @@ public class ReviewSceneDirector : MonoBehaviour
         GameObject.Find($"AnswerButton{questionData.answer + 1}").GetComponent<Image>().color = new Color(1, 1, 1, 1);
     }
 
-    public void OnClick()
+    public void OnBackClick()
     {
         SceneManager.LoadScene("FinishRound");
+    }
+
+    public void OnRotateClick()
+    {
+        SceneManager.LoadScene("Rotate");
     }
 }
