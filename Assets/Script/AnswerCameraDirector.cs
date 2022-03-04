@@ -27,7 +27,6 @@ public class AnswerCameraDirector : MonoBehaviour
         }
         //p1とｘの内積、ｐ１とｙの内積を求めてリザルトで大なり小なり返す
     }
-    public GameObject[] sphereObject;
     public GameObject createMeshDirectorPrefab;
     public List<Vector3> sortedList = new List<Vector3>();
     List<Vector3> crossPointsShifted;
@@ -37,7 +36,6 @@ public class AnswerCameraDirector : MonoBehaviour
 
     public void MoveCamera(Vector3 shiftVector, List<Vector3> crossPoints)
     {
-        sphereObject = GameObject.Find("QuestionSceneDirector").GetComponent<QuestionSceneDirector>().sphereObject;
         crossPointsShifted = new List<Vector3>();
 
         //Debug.Log("crossPoints: " + crossPoints.Count);

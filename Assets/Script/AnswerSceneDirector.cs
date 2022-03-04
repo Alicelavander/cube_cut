@@ -28,13 +28,11 @@ public class AnswerSceneDirector : MonoBehaviour
         {
             score.text = "正解";
             score.color = red;
-            Debug.Log(score.color);
         }
         else
         {
             score.text = "不正解";
             score.color = blue;
-            Debug.Log(score.color);
         }
 
         for (int j = 0; j < 3; j++)

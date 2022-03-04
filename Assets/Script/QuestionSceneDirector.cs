@@ -43,14 +43,14 @@ namespace Cubes
             QuestionData questiondata = new QuestionData(vertexList);
             GameManager.Instance.Add(questiondata);
 
-            //立方体上に3点を描画するよ
+            //立方体上に3点を描画
             for (int j = 0; j < 3; j++)
             {
                 sphereObject[j] = Instantiate(spherePrefab);
                 sphereObject[j].transform.position = questiondata.answerOptions[questiondata.answer][j];
             }
             Debug.Log($"answer is: {questiondata.answer}");
-            //カメラを移動させるよ
+            //カメラを移動&各パネル作成
             for (int i = 0; i < 4; i++)
             {
                 answerCameraDirector[i].MoveCamera(new Vector3(10 * (i + 1), 0, 0), questiondata.answerOptions[i]);

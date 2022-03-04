@@ -17,10 +17,9 @@ namespace Cube_cut
         }
 
         private List<QuestionData> questionDatas = new List<QuestionData>();
+        private GameManager() { }
 
-        private GameManager()
-        {
-        }
+        public int number;
 
         public List<int> WrongAnswers()
         {
@@ -57,6 +56,20 @@ namespace Cube_cut
             }
         }
  
+        public QuestionData getQuestionData(int questionNumber)
+        {
+            return questionDatas[questionNumber];
+        }
+
+        public int numberOfQuestions()
+        {
+            return questionDatas.Count;
+        }
+
+        public void SetQuestionNumber(int num)
+        {
+            number = num;
+        }
     }
 
     public class QuestionData

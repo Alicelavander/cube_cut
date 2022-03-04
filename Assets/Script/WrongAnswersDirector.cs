@@ -17,7 +17,6 @@ public class WrongAnswersDirector : MonoBehaviour
     {
         for (int i = 0; i < wrongAnswers.Count; i++)
         {
-            Debug.Log($"num: {questionNumber}, current num: {wrongAnswers[i]}");
             if (questionNumber.Equals(wrongAnswers[i]))
             {
                 return false;
@@ -42,6 +41,7 @@ public class WrongAnswersDirector : MonoBehaviour
             image = button.GetComponent<Image>();
             button.transform.SetParent(content);
             button.GetComponentInChildren<Text>().text = $"問{i+1}";
+            button.GetComponent<ReviewButtonScript>().QuestionNumber = i;
 
             if (correct(i, wrongAnswers)) image.sprite = right;
             else image.sprite = wrong;
