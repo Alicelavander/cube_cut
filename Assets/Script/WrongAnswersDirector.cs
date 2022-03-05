@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Cube_cut;
 using UnityEngine.SceneManagement;
 using Cubes;
+using System;
 
 public class WrongAnswersDirector : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class WrongAnswersDirector : MonoBehaviour
     public Text text;
     public Sprite right;
     public Sprite wrong;
+    int reviewNumber;
 
     bool correct(int questionNumber, List<int> wrongAnswers)
     {
@@ -42,6 +44,10 @@ public class WrongAnswersDirector : MonoBehaviour
             button.transform.SetParent(content);
             button.GetComponentInChildren<Text>().text = $"問{i+1}";
             button.GetComponent<ReviewButtonScript>().QuestionNumber = i;
+            reviewNumber = i;
+            WrongAnswersDirector a = GameObject.Find("WrongAnswersDirector").GetComponent<WrongAnswersDirector>();
+            button.GetComponent<Button>().onClick.AddListener(a.ReviewButtonClicked);
+
 
             if (correct(i, wrongAnswers)) image.sprite = right;
             else image.sprite = wrong;
@@ -49,6 +55,12 @@ public class WrongAnswersDirector : MonoBehaviour
         }
 
         text.text = $"スコア: {20 - wrongAnswers.Count} / 20";        
+    }
+
+    public void ReviewButtonClicked()
+    {
+        GameManager.Instance.SetQuestionNumber(reviewNumber);
+        SceneManager.LoadScene("Review");
     }
 
     // Update is called once per frame
