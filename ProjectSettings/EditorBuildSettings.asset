@@ -17,4 +17,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/FinishRound.unity
     guid: ea853261c034acf40bbb94f634d5b72f
+  - enabled: 1
+    path: Assets/Scenes/Rotate.unity
+    guid: dd90c2c1423a7b4469fb85473e1116dd
+  - enabled: 1
+    path: Assets/Scenes/Review.unity
+    guid: a3d10bfe9844df8498c70b165d30a9ff
   m_configObjects: {}

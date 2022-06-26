@@ -10,6 +10,7 @@ using System;
 public class WrongAnswersDirector : MonoBehaviour
 {
     public GameObject buttonPrefab;
+    public Font font;
     public Text text;
     public Sprite right;
     public Sprite wrong; 
@@ -42,6 +43,7 @@ public class WrongAnswersDirector : MonoBehaviour
             image = button.GetComponent<Image>();
             button.transform.SetParent(content);
             button.GetComponentInChildren<Text>().text = $"問{i+1}";
+            button.GetComponentInChildren<Text>().font = font;
             button.GetComponent<ReviewButtonScript>().QuestionNumber = i;
 
             if (correct(i, wrongAnswers)) image.sprite = right;
