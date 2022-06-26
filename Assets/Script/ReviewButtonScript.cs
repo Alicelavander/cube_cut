@@ -12,7 +12,9 @@ public class ReviewButtonScript : MonoBehaviour
     public int QuestionNumber;
 
     public void OnClick() {
-        GameManager.Instance.SetQuestionNumber(QuestionNumber);
+        GameManager.Instance.SetCurrentQuestionNumber(QuestionNumber);
         SceneManager.LoadScene("Review");
+
+        Debug.Log(QuestionNumber);
     }
 }

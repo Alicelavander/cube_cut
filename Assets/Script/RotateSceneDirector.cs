@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class RotateSceneDirector : MonoBehaviour
 {
-    int questionNumber = GameManager.Instance.number;
+    int questionNumber = GameManager.Instance.GetCurrentQuestionNumber();
     public GameObject spherePrefab;
     GameObject[] sphereObjects = new GameObject[3];
 

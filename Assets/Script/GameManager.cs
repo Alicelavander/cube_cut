@@ -19,14 +19,14 @@ namespace Cube_cut
         private List<QuestionData> questionDatas = new List<QuestionData>();
         private GameManager() { }
 
-        public int number;
+        private int number;
 
         public List<int> WrongAnswers()
         {
             List<int> number = new List<int>();
             for(int i=0; i<questionDatas.Count; i++)
             {
-                if (!questionDatas[i].IsCorrect) number.Add(i+1);
+                if (!questionDatas[i].IsCorrect) number.Add(i);
             }
 
             return number;
@@ -66,10 +66,16 @@ namespace Cube_cut
             return questionDatas.Count;
         }
 
-        public void SetQuestionNumber(int num)
+        public void SetCurrentQuestionNumber(int num)
         {
             number = num;
         }
+
+        public int GetCurrentQuestionNumber()
+        {
+            return number;
+        }
+
     }
 
     public class QuestionData

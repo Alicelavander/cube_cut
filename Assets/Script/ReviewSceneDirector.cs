@@ -11,7 +11,7 @@ public class ReviewSceneDirector : MonoBehaviour
     public Text question;
     public Sprite right;
     public Sprite wrong;
-    int questionNumber;
+    int currentQuestionNumber;
     AnswerCameraDirector mainCameraDirector;
     GameObject[] sphereObjects = new GameObject[3];
     public AnswerCameraDirector[] answerCameraDirectors;
@@ -19,10 +19,11 @@ public class ReviewSceneDirector : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        questionNumber = GameManager.Instance.number;
+        currentQuestionNumber = GameManager.Instance.GetCurrentQuestionNumber();
+        Debug.Log(currentQuestionNumber);
 
-        question.text = $"{questionNumber + 1}.";
-        QuestionData questionData = GameManager.Instance.getQuestionData(questionNumber);
+        question.text = $"{currentQuestionNumber + 1}.";
+        QuestionData questionData = GameManager.Instance.getQuestionData(currentQuestionNumber);
 
         //立方体&Mesh作成
         mainCameraDirector = GameObject.Find("AnswerCameraDirector").GetComponent<AnswerCameraDirector>();
